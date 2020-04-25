@@ -9,6 +9,9 @@
   * 教室桌面端
   * 教师桌面端（Windows macOS Linux）
   * 教师移动端（Android iOS）
+## 项目技术栈
+服务器端主要为Python，用到的库有：flask、PyMySQL、SQLite（会随着项目进展增加）
+其他端用到的写在对应项目的README里
 ## 我们的网站：
 [transchannel.net](transchannel.net)
 ## 贡献
