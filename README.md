@@ -13,6 +13,6 @@
 服务器端主要为Python，用到的库有：flask、PyMySQL、SQLite（会随着项目进展增加）
 其他端用到的写在对应项目的README里
 ## 我们的网站：
-[transchannel.net](transchannel.net)
+[transchannel.net](http://transchannel.net)
 ## 贡献
 项目还在非常初期的阶段，因此如果您想要为项目做出贡献，可以选择加入我们的团队，共同开发。项目成型之后，可以通过提交PR的方式帮助我们
