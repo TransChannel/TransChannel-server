@@ -1,7 +1,5 @@
 # TransChannel
 一个帮助老师传课件到教师的开源项目
-* [服务端](https://github.com/TransChannel/TransChannel-server)
-* [前端](https://github.com/TransChannel/TransChannel-frontend)
 ## 计划开发内容
 * 服务器端（开发中）
 * 教师网页端（开发中）
