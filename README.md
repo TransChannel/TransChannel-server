@@ -1,12 +1,12 @@
 # TransChannel
 一个帮助老师传课件到教师的开源项目
 ## 计划开发内容
-* 服务器端（开发中）
-* 教师网页端（开发中）
-* 客户端（还没有开始）
-  * 教室桌面端
-  * 教师桌面端（Windows macOS Linux）
-  * 教师移动端（Android iOS）
+* [服务器端](https://github.com/TransChannel/TransChannel-server)
+* [教师网页端](https://github.com/TransChannel/TransChannel-frontend)
+* 客户端
+  * [教室桌面端](https://github.com/TransChannel/TransChannel-classroom-client)
+  * [教师桌面端](https://github.com/TransChannel/TransChannel-teacher-client)（Windows macOS Linux）
+  * [教师移动端(Android)](https://github.com/TransChannel/TransChannel-teacher-client-android)
 ## 项目技术栈
 服务器端使用[node.js](https://nodejs.org/zh-cn)开发
 其他端用到的写在对应项目的README里
