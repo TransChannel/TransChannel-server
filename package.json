@@ -2,16 +2,9 @@
     "name": "transchannel",
     "version": "0.0.1",
     "description": "帮助老师传输课件的系统",
-    "homepage": "http://transchannel.net",
     "repository": {
         "type": "git",
         "url": "https://github.com/TransChannel/TransChannel-server.git"
-    },
-    "dependencies": {
-        "mysql": "2.18.1",
-        "sqlite": "4.0.7",
-        "vue": "2.6.11",
-        "element-ui": "2.13.1"
     },
     "bugs": {
         "url": "https://github.com/TransChannel/TransChannel-server/issues"
