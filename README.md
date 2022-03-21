@@ -3,7 +3,6 @@
 ![GitHub releases](https://img.shields.io/github/v/release/TransChannel/TransChannel-server.svg)
 ![downloads](https://img.shields.io/github/downloads/TransChannel/TransChannel-server/total)
 ![repo size](https://img.shields.io/github/repo-size/TransChannel/TransChannel-server)
-![release version](https://img.shields.io/github/v/release/TransChannel/Transchannel-server)
 ## 计划开发内容
 * [服务器端](https://github.com/TransChannel/TransChannel-server)
 * [教师网页端](https://github.com/TransChannel/TransChannel-frontend)
