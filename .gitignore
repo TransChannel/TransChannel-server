@@ -26,3 +26,6 @@ out/
 
 # nodejs
 node_modules/
+
+# project
+logs/
