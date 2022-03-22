@@ -6,7 +6,7 @@ let appLogger = getLogger("app")
 
 module.exports.uploadFile = async (req, res) => {
     if (!req.file || Object.keys(req.file).length === 0) {
-        res.send({
+        res.status(400).send({
             status: 400,
             message: "请上传文件"
         })
@@ -19,7 +19,7 @@ module.exports.uploadFile = async (req, res) => {
             let path = __dirname + `/data/files/${uuid}/${file.name}`
             file.mv(path, (err) => {
                 if (err) {
-                    res.send({
+                    res.status(500).send({
                         status: 500,
                         message: err
                     })
@@ -27,14 +27,14 @@ module.exports.uploadFile = async (req, res) => {
                 }
             })
             appLogger.info(`${user.username} uploaded ${file.name}`)
-            res.send({
+            res.status(200).send({
                 status: 200,
                 uuid: uuid,
                 message: "上传成功"
             })
             getConnection().query(`INSERT INTO files(\`uuid\`, \`owner\`, \`path\`, \`name\`, \`upload_date\`) VALUES('${uuid}', '${user.username}', '${path}', '${file.name}', '${Math.round(new Date().getTime() / 1000)}')`)
         } else {
-            res.send({
+            res.status(404).send({
                 status: 404,
                 message: "权限不足"
             })
@@ -44,7 +44,7 @@ module.exports.uploadFile = async (req, res) => {
 
 module.exports.getFile = async (req,res) => {
     if (!req.body.file.uuid) {
-        res.send({
+        res.status(400).send({
             status: 400,
             message: "请输入文件uuid"
         })
@@ -53,7 +53,7 @@ module.exports.getFile = async (req,res) => {
         if (file) {
             res.send(file)
         } else {
-            res.send({
+            res.status(404).send({
                 status: 404,
                 message: "找不到文件"
             })
@@ -63,7 +63,7 @@ module.exports.getFile = async (req,res) => {
 
 module.exports.downloadFile = async (req, res) => {
     if (!req.body.file.uuid) {
-        res.send({
+        res.status(400).send({
             status: 400,
             message: "请输入文件uuid"
         })
@@ -78,13 +78,13 @@ module.exports.downloadFile = async (req, res) => {
                     throw err
                 }))
             } else {
-                res.send({
+                res.status(403).send({
                     status: 403,
                     message: "权限不足"
                 })
             }
         } else {
-            res.send({
+            res.status(404).send({
                 status: 404,
                 message: "找不到文件"
             })

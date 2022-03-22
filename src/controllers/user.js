@@ -20,20 +20,20 @@ module.exports.createUser = async (req, res) => {
     if (getUserByName(decodeToken(req.headers["x-access-token"]).username)["type"] === "admin") {
         appLogger.info(`${req.ip} is creating a user`)
         if (!req.body.user.username) {
-            res.send({
+            res.status(400).send({
                 status: 400,
                 message: "需要输入用户名"
             })
         } else {
             if (!req.body.user.password) {
-                res.send({
+                res.status(400).send({
                     status: 400,
                     message: "需要输入密码"
                 })
             } else {
                 let accountType = ["admin", "teacher", "classroom"]
                 if (!req.body.user.type || !accountType.includes(req.body.user.type) ) {
-                    res.send({
+                    res.status(400).send({
                         status: 400,
                         message: "未输入账号类型或账号类型错误"
                     })
@@ -43,7 +43,7 @@ module.exports.createUser = async (req, res) => {
                     getConnection().query(`INSERT INTO users(\`username\`, \`password\`, \`salt\`, \`type\`, \`create_date\`) VALUES('${req.body.user.username}', '${saltedPassword}', '${salt}', '${req.body.user.type}', '${Math.round(new Date().getTime() / 1000)}'‘)`)
                     appLogger.info(`${req.ip} registered ${req.body.user.type} user ${req.body.user.username}`)
                     authLogger.info(`${req.ip} registered ${req.body.user.type} user ${req.body.user.username}`)
-                    res.send({
+                    res.status(200).send({
                         status: 200,
                         message: "注册成功"
                     })
@@ -51,7 +51,7 @@ module.exports.createUser = async (req, res) => {
             }
         }
     } else {
-        res.send({
+        res.status(403).send({
             status: 403,
             message: "权限不足"
         })
@@ -70,13 +70,13 @@ module.exports.login = async (req, res) => {
 
     appLogger.info(`${req.ip} is logging in`)
     if (!req.body.user.username) {
-        res.send({
+        res.status(400).send({
             status: 400,
             message: "需要输入用户名"
         })
     } else {
         if (!req.body.user.password) {
-            res.send({
+            res.status(400).send({
                 status: 400,
                 message: "需要输入密码"
             })
@@ -85,20 +85,20 @@ module.exports.login = async (req, res) => {
                 let userInformation = getUserByName(req.body.user.username)
                 if (userInformation.password === getSaltedPassword(req.body.user.password, userInformation.salt)) {
                     let token = sign({username: req.body.user.username}, getSecretKey())
-                    res.send({
+                    res.status(200).send({
                         status: 200,
                         message: "登录成功",
                         token: token
                     })
                 } else {
                     appLogger.info(`${req.ip}failed logging in ${req.body.user.username}`)
-                    res.send({
+                    res.status(403).send({
                         status: 403,
                         message: "用户名或密码错误"
                     })
                 }
             } catch (e) {
-                res.send({
+                res.status(500).send({
                     status: 500,
                     message: "数据库查询错误"
                 })
@@ -106,7 +106,7 @@ module.exports.login = async (req, res) => {
             /*直接查询
             getConnection().query("SELECT * FROM users WHERE ", (err, rows) => {
                 if (err) {
-                    res.send({
+                    res.status(500).send({
                         status: 500,
                         message: "数据库查询错误"
                     })
@@ -117,14 +117,14 @@ module.exports.login = async (req, res) => {
                         appLogger.info(`${req.body.user.username} successfully logged in at ${req.ip}`)
                         authLogger.info(`${req.body.user.username} successfully logged in at ${req.ip}`)
                         let token = sign({username: req.body.user.username}, getSecretKey())
-                        res.send({
+                        res.status(200).send({
                             status: 200,
                             message: "登陆成功",
                             token: token
                         })
                     } else {
                         appLogger.info(`${req.ip}failed logging in ${req.body.user.username}`)
-                        res.send({
+                        res.status(403).send({
                             status: 403,
                             message: "用户名或密码错误"
                         })
@@ -154,18 +154,18 @@ module.exports.changePassword = async (req, res) => {
                         getConnection().query(`UPDATE users SET password='${getSaltedPassword(req.body.user.new_password, getUserByName(req.body.user.username).salt)}' WHERE username='${req.body.user.username}'`)
                         appLogger.info(`the password of ${req.body.user.username} is changed by ${decodeToken(req.headers["x-access-token"]).username}`)
                         authLogger.info(`the password of ${req.body.user.username} is changed by ${decodeToken(req.headers["x-access-token"]).username}`)
-                        res.send({
+                        res.status(200).send({
                             status: 200,
                             message: "修改成功"
                         })
                     } else {
-                        res.send({
+                        res.status(403).send({
                             status: 403,
                             message: "密码错误"
                         })
                     }
                 } else {
-                    res.send({
+                    res.status(400).send({
                         status: 400,
                         message: "需要输入旧密码"
                     })
@@ -175,24 +175,24 @@ module.exports.changePassword = async (req, res) => {
                 getConnection().query(`UPDATE users SET password='${getSaltedPassword(req.body.user.new_password, getUserByName(req.body.user.username).salt)}' WHERE username='${req.body.user.username}'`)
                 appLogger.info(`the password of ${req.body.user.username} is changed by ${decodeToken(req.headers["x-access-token"]).username}`)
                 authLogger.info(`the password of ${req.body.user.username} is changed by ${decodeToken(req.headers["x-access-token"]).username}`)
-                res.send({
+                res.status(200).send({
                     status: 200,
                     message: "修改成功"
                 })
             } else {
-                res.send({
+                res.status(403).send({
                     status: 403,
                     message: "旧密码不正确"
                 })
             }
         } else {
-            res.send({
+            res.status(400).send({
                 status: 400,
                 message: "需要输入新密码"
             })
         }
     } else {
-        res.send({
+        res.status(404).send({
             status: 404,
             message: "找不到用户"
         })
