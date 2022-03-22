@@ -1,13 +1,10 @@
-const fs = require("fs")
-
-const config = fs.readFileSync("../config.json")
-
 module.exports.getConfig = () => {
-    return JSON.parse(config.toString())
+    const config = require("../../config")
+    return config.config
 }
 
 module.exports.getLoggingConfig = () => {
-    let config = {
+    let logginConfig = {
         appenders: {
             app: {
                 type: "dateFile",
@@ -29,6 +26,6 @@ module.exports.getLoggingConfig = () => {
             }
         }
     }
-    config.categories.default.level = process.env.LOG_LEVEL || "info"
-    return config
+    logginConfig.categories.default.level = process.env.LOG_LEVEL || "info"
+    return logginConfig
 }
