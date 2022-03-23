@@ -198,3 +198,18 @@ module.exports.changePassword = async (req, res) => {
         })
     }
 }
+
+module.exports.checkLoginStatus = (req, res) => {
+    try {
+        decodeToken(req.headers["x-access-token"])
+        res.status(200).send({
+            status: 200,
+            message: "已登录"
+        })
+    } catch (error) {
+        res.status(403).send({
+            status: 403,
+            message: "未登录"
+        })
+    }
+}

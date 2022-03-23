@@ -8,13 +8,13 @@ module.exports.getLoggingConfig = () => {
         appenders: {
             app: {
                 type: "dateFile",
-                filename: "application.log",
+                filename: "logs/application.log",
                 pattern: "yyyy-MM-dd",
                 compress: true
             },
             auth: {
                 type: "dateFile",
-                filename: "authorization.log",
+                filename: "logs/authorization.log",
                 pattern: "yyyy-MM-dd",
                 compress: true
             }

@@ -1,5 +1,5 @@
 const express = require("express")
-const {createUser, login, changePassword} = require("../controllers/user")
+const {createUser, login, changePassword, checkLoginStatus} = require("../controllers/user")
 const {getLogger} = require("../utils/utils")
 const {uploadFile, getFile, downloadFile} = require("../controllers/files")
 
@@ -12,6 +12,7 @@ module.exports.start = () => {
     app.post("/user/create", createUser)
     app.post("/user/login", login)
     app.post("/user/changePassword", changePassword)
+    app.get("/user/check", checkLoginStatus)
 
     app.post("/file/upload", uploadFile)
     app.post("/file/get", getFile)
