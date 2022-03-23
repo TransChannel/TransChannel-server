@@ -22,9 +22,12 @@ module.exports.init = () => {
         let salt = v4()
         let randomPassword = getRandomString(8)
         let saltedPassword = getSaltedPassword(randomPassword, salt)
-        getConnection().query(`INSERT INTO users(\`username\`, \`password\`, \`salt\`, \`type\`, \`create_date\`) VALUES('admin', '${saltedPassword}', '${salt}', 'admin', '${Math.round(new Date().getTime() / 1000)}')`)
-        appLogger.info(`username: admin   password: ${randomPassword}`)
-        console.log(getConnection().query("SELECT * FROM users WHERE username='admin'")[0])
-        console.log(getConnection().query("SELECT * FROM users WHERE username='admin'"))
+        getConnection().query(`INSERT INTO users(\`username\`, \`password\`, \`salt\`, \`type\`, \`create_date\`) VALUES('admin', '${saltedPassword}', '${salt}', 'admin', '${Math.round(new Date().getTime() / 1000)}')`, (err) => {
+            if (err) {
+                appLogger.info(`admin existed`)
+            } else {
+                appLogger.info(`username: admin   password: ${randomPassword}`)
+            }
+        })
     }
 }
