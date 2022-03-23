@@ -2,8 +2,10 @@ const mysql = require("mysql2")
 const {getConfig} = require("./config_utils")
 const {getConnection} = require("./sql_utils")
 
+const connectPool = mysql.createPool(getConfig()["mysql"])
+
 module.exports.getConnection = () => {
-    return mysql.createConnection(getConfig()["mysql"])
+    return connectPool
 }
 
 module.exports.getUserByName = (username) => {

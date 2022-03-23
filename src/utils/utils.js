@@ -1,5 +1,5 @@
 const log4js = require("log4js")
-const {getLoggingConfig} = require("./utils/config_utils")
+const {getLoggingConfig} = require("./config_utils")
 const crypto = require("crypto")
 const {v4} = require("uuid")
 const {verify} = require("jsonwebtoken")
