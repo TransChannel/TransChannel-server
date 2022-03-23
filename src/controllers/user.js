@@ -17,7 +17,7 @@ module.exports.createUser = async (req, res) => {
     *   }
     * }*/
 
-    if (getUserByName(decodeToken(req.headers["x-access-token"]).username)["type"] === "admin") {
+    if (getUserByName(decodeToken(req.headers["X-Access-Token"]).username)["type"] === "admin") {
         appLogger.info(`${req.ip} is creating a user`)
         if (!req.body.user.username) {
             res.status(400).send({
@@ -147,13 +147,13 @@ module.exports.changePassword = async (req, res) => {
     * }*/
     if (getUserByName(req.body.user.username)) {
         if (req.body.user.new_password) {
-            if (decodeToken(req.headers["x-access-token"]).username === req.body.user.username) {
+            if (decodeToken(req.headers["X-Access-Token"]).username === req.body.user.username) {
                 //用户自行修改密码
                 if (req.body.user.old_password) {
                     if (getSaltedPassword(req.body.user.old_password, getUserByName(req.body.user.username).salt) === getUserByName(req.body.user.username).password) {
                         getConnection().query(`UPDATE users SET password='${getSaltedPassword(req.body.user.new_password, getUserByName(req.body.user.username).salt)}' WHERE username='${req.body.user.username}'`)
-                        appLogger.info(`the password of ${req.body.user.username} is changed by ${decodeToken(req.headers["x-access-token"]).username}`)
-                        authLogger.info(`the password of ${req.body.user.username} is changed by ${decodeToken(req.headers["x-access-token"]).username}`)
+                        appLogger.info(`the password of ${req.body.user.username} is changed by ${decodeToken(req.headers["X-Access-Token"]).username}`)
+                        authLogger.info(`the password of ${req.body.user.username} is changed by ${decodeToken(req.headers["X-Access-Token"]).username}`)
                         res.status(200).send({
                             status: 200,
                             message: "修改成功"
@@ -170,11 +170,11 @@ module.exports.changePassword = async (req, res) => {
                         message: "需要输入旧密码"
                     })
                 }
-            } else if (getUserByName(decodeToken(req.headers["x-access-token"]).username).type === "admin") {
+            } else if (getUserByName(decodeToken(req.headers["X-Access-Token"]).username).type === "admin") {
                 //管理员修改密码
                 getConnection().query(`UPDATE users SET password='${getSaltedPassword(req.body.user.new_password, getUserByName(req.body.user.username).salt)}' WHERE username='${req.body.user.username}'`)
-                appLogger.info(`the password of ${req.body.user.username} is changed by ${decodeToken(req.headers["x-access-token"]).username}`)
-                authLogger.info(`the password of ${req.body.user.username} is changed by ${decodeToken(req.headers["x-access-token"]).username}`)
+                appLogger.info(`the password of ${req.body.user.username} is changed by ${decodeToken(req.headers["X-Access-Token"]).username}`)
+                authLogger.info(`the password of ${req.body.user.username} is changed by ${decodeToken(req.headers["X-Access-Token"]).username}`)
                 res.status(200).send({
                     status: 200,
                     message: "修改成功"
@@ -201,7 +201,7 @@ module.exports.changePassword = async (req, res) => {
 
 module.exports.checkLoginStatus = (req, res) => {
     try {
-        decodeToken(req.headers["x-access-token"])
+        decodeToken(req.headers["X-Access-Token"])
         res.status(200).send({
             status: 200,
             message: "已登录"

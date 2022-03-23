@@ -11,7 +11,7 @@ module.exports.uploadFile = async (req, res) => {
             message: "请上传文件"
         })
     } else {
-        let user = getUserByName(decodeToken(req.headers["x-access-token"]).username)
+        let user = getUserByName(decodeToken(req.headers["X-Access-Token"]).username)
         let file = req.body.file[0]
         if (user.type === "admin" || user.type === "teacher" ) {
             appLogger.info(`${user.username} is trying to upload ${file.name}`)
@@ -70,10 +70,10 @@ module.exports.downloadFile = async (req, res) => {
     } else {
         let file = getFile(req.body.file.uuid)
         if (file) {
-            if (getUserByName(decodeToken(req.headers["x-access-token"]).username)["type"] === "admin" ||
-                getUserByName(decodeToken(req.headers["x-access-token"]).username)["type"] === "classroom" ||
-                getUserByName(req.headers["x-access-token"]).username === file["owner"]) {
-                appLogger.info(`${req.headers["x-access-token"].username} is downloading ${file["name"]}`)
+            if (getUserByName(decodeToken(req.headers["X-Access-Token"]).username)["type"] === "admin" ||
+                getUserByName(decodeToken(req.headers["X-Access-Token"]).username)["type"] === "classroom" ||
+                getUserByName(req.headers["X-Access-Token"]).username === file["owner"]) {
+                appLogger.info(`${req.headers["X-Access-Token"].username} is downloading ${file["name"]}`)
                 res.download(file["path"], file["name"], (err => {
                     throw err
                 }))
