@@ -1,8 +1,8 @@
 module.export.config = {
-  mysql: {
-    host: "",
-    user: "",
-    password: "",
-    database: ""
-  }
+    mysql: {
+        host: "",
+        user: "",
+        password: "",
+        database: ""
+    }
 }
